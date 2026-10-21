@@ -1,0 +1,74 @@
+{
+  "name": "analytics",
+  "version": "0.1.0",
+  "tablePrefix": "ana_",
+  "description": "Shows who visits your site and where they came from - search, adverts, email, social, other sites, every utm_ tag - and, with the Shop installed, which visits ended in an order and who placed it. Counted on your own site, through your cookie banner.",
+  "requiresCoreVersion": "0.5.1763",
+  "permissions": [
+    "analytics.view",
+    "analytics.manage"
+  ],
+  "navEntries": [
+    {
+      "label": "Analytics",
+      "path": "/m/analytics/overview",
+      "icon": "<path d=\"M3 3v18h18\"/><path d=\"M7 15l4-4 3 3 5-6\"/>",
+      "permission": "analytics.view"
+    }
+  ],
+  "cookieCategories": [
+    {
+      "key": "analytics",
+      "label": "Analytics",
+      "description": "Lets us count visits and see which pages people use and where they found us, so we can make the site better. No adverts come from this."
+    }
+  ],
+  "settingsTabs": [
+    {
+      "id": "analytics",
+      "label": "Analytics",
+      "permission": "analytics.manage",
+      "import": "./components/SettingsTab",
+      "component": "AnalyticsSettingsTab",
+      "parent": "general"
+    }
+  ],
+  "autoPlaceBlocks": [
+    {
+      "type": "Analytics",
+      "layoutType": "header"
+    }
+  ],
+  "puckBlocks": [
+    {
+      "type": "Analytics",
+      "import": "./components/AnalyticsBlock",
+      "rscImport": "./components/AnalyticsBlock.rsc",
+      "component": "analyticsBlockComponent",
+      "rscComponent": "analyticsBlockRscComponent",
+      "layoutTypes": [
+        "header",
+        "footer"
+      ]
+    }
+  ],
+  "requiredEnvVars": [
+    {
+      "name": "CRON_SECRET",
+      "required": false
+    }
+  ],
+  "cronJobs": [
+    {
+      "path": "/api/m/analytics/cron/retention",
+      "schedule": "23 3 * * *"
+    }
+  ],
+  "teardown": [
+    "ana_orders",
+    "ana_pageviews",
+    "ana_sessions",
+    "ana_visitors",
+    "ana_settings"
+  ]
+}
